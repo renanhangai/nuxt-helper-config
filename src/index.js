@@ -32,7 +32,7 @@ class NuxtConfigHelper {
 		const FEATURES_DIR = this._options.featuresDir || path.resolve( ROOT_DIR, "www/common/nuxt/features" );
 
 		// Defaults
-		const defaults = Object.assign( {}, this.defaults() );
+		const defaults = Object.assign( {}, this._options.defaults );
 
 		// Configuration
 		const config = Object.assign( {}, this._config );
