@@ -17,25 +17,19 @@ const webpack = require( "webpack" );
 
 class NuxtConfigHelper {
 
-	constructor( dir, config ) {
+	constructor( dir, config, options ) {
 		this._dir     = dir;
 		this._config = Object.assign( {}, config );
+		this._options = Object.assign( {}, options );
 
 		this._baseDir = path.basename( dir );
 
 	}
 
-	rootDir() { 
-		return process.cwd(); 
-	};
-
-	defaults() {
-		return {};
-	}
-
 	generate() {
-		const ROOT_DIR = this.rootDir();
-		const BUILD_DIR = process.env.APP_BUILD_DIR ? path.resolve( process.env.APP_BUILD_DIR ) : path.resolve( ROOT_DIR, "build" );
+		const ROOT_DIR = this._options.rootDir  || process.cwd();
+		const BUILD_DIR = this._options.buildDir || ( process.env.APP_BUILD_DIR ? path.resolve( process.env.APP_BUILD_DIR ) : path.resolve( ROOT_DIR, "build" ) );
+		const FEATURES_DIR = this._options.featuresDir || path.resolve( ROOT_DIR, "www/common/nuxt/features" );
 
 		// Defaults
 		const defaults = Object.assign( {}, this.defaults() );
@@ -61,7 +55,7 @@ class NuxtConfigHelper {
 			if ( enabledFeatures[f] )
 				return;
 			enabledFeatures[f] = true;
-			const feature = require( path.resolve( __dirname, "./features", f+".js" ) );
+			const feature = require( path.resolve( FEATURES_DIR, f+".js" ) );
 			const featureOptions = config.features ? config.features[f] : void(0);
 			if ( featureOptions !== false )
 				feature.call( null, config, featureOptions );
@@ -129,13 +123,11 @@ function asDefine( obj ) {
 // Export the helpers
 module.exports = {
 	asDefine: asDefine,
-	create( rootDir, defaults, helperClass ) {
-		if ( !helperClass )
-			helperClass = NuxtConfigHelper;
+	create( helperCreateOptions ) {
+		helperCreateOptions = helperCreateOptions || {};
+		const helperClass = helperCreateOptions.helperClass || NuxtConfigHelper;
 		return function ( dir, config ) {
-			const helper = new helperClass( dir, config );
-			helper.rootDir  = function() { return rootDir; };
-			helper.defaults = function() { return defaults; };
+			const helper = new helperClass( dir, config, helperCreateOptions );
 			return helper.generate();
 		}
 	},
