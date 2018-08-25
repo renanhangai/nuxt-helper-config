@@ -5,5 +5,12 @@
   "main": "src/index.js",
   "repository": "https://github.com/renanhangai/nuxt-helper-config.git",
   "author": "renanhangai <hangai.renan@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "standard-version": "^4.4.0"
+  },
+  "scripts": {
+    "release": "standard-version"
+  }
 }
