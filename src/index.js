@@ -28,7 +28,7 @@ class NuxtConfigHelper {
 
 	generate() {
 		const ROOT_DIR = this._options.rootDir  || process.cwd();
-		const BUILD_DIR = this._options.buildDir || ( process.env.APP_BUILD_DIR ? path.resolve( process.env.APP_BUILD_DIR ) : path.resolve( ROOT_DIR, "build" ) );
+		const BUILD_DIR = this._options.buildDir || ( process.env.APP_BUILD_DIR ? path.resolve( process.env.APP_BUILD_DIR ) : path.resolve( ROOT_DIR, "dist" ) );
 		const FEATURES_DIR = this._options.featuresDir || path.resolve( ROOT_DIR, "www/common/nuxt/features" );
 
 		// Defaults
