@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.1"></a>
+## [0.3.1](https://github.com/renanhangai/nuxt-helper-config/compare/v0.3.0...v0.3.1) (2018-08-25)
+
+
+### Bug Fixes
+
+* Configuration file ([4c707af](https://github.com/renanhangai/nuxt-helper-config/commit/4c707af))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/renanhangai/nuxt-helper-config/compare/v0.2.2...v0.3.0) (2018-08-25)
 
