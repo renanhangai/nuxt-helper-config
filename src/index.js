@@ -26,6 +26,13 @@ class NuxtConfigHelper {
 
 	}
 
+	getConfig( context ) {
+		let config = this._config;
+		if ( typeof(config) === 'function' )
+			config = config.call( null, context );
+		return Object.assign( {}, config );
+	}
+
 	generate() {
 		const ROOT_DIR = this._options.rootDir  || process.cwd();
 		const BUILD_DIR = this._options.buildDir || ( process.env.APP_BUILD_DIR ? path.resolve( process.env.APP_BUILD_DIR ) : path.resolve( ROOT_DIR, "dist" ) );
@@ -35,7 +42,11 @@ class NuxtConfigHelper {
 		const defaults = Object.assign( {}, this._options.defaults );
 
 		// Configuration
-		const config = Object.assign( {}, this._config );
+		const config = this.getConfig({
+			rootDir: ROOT_DIR,
+			buildDir: BUILD_DIR,
+			featuresDir: FEATURES_DIR,
+		});
 		config.alias      = Object.assign( {}, defaults.alias, config.alias );
 		config.css        = [].concat( defaults.css ).concat( config.css );
 		config.define     = Object.assign( {}, defaults.define, config.define );
