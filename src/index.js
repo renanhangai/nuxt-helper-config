@@ -19,7 +19,7 @@ class NuxtConfigHelper {
 
 	constructor( dir, config, options ) {
 		this._dir     = dir;
-		this._config = Object.assign( {}, config );
+		this._config  = config;
 		this._options = Object.assign( {}, options );
 
 		this._baseDir = path.basename( dir );
