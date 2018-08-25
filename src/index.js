@@ -1,9 +1,6 @@
 const path = require( "path" );
 const fs = require( "fs" );
 const webpack = require( "webpack" );
-const BUILD_DIR = process.env.APP_BUILD_DIR ? path.resolve( process.env.APP_BUILD_DIR ) : path.resolve( __dirname, "../../../build" );
-const ROOT_DIR  = path.resolve( __dirname, "../../../" );
-const CONFIG = require( path.join( BUILD_DIR, "config.json" ) );
 
 /**
 
@@ -25,13 +22,22 @@ class NuxtConfigHelper {
 		this._config = Object.assign( {}, config );
 
 		this._baseDir = path.basename( dir );
+
 	}
+
+	rootDir() { 
+		return process.cwd(); 
+	};
 
 	defaults() {
 		return {};
 	}
 
 	generate() {
+		const ROOT_DIR = this.rootDir();
+		const BUILD_DIR = process.env.APP_BUILD_DIR ? path.resolve( process.env.APP_BUILD_DIR ) : path.resolve( ROOT_DIR, "build" );
+
+		// Defaults
 		const defaults = Object.assign( {}, this.defaults() );
 
 		// Configuration
@@ -122,6 +128,15 @@ function asDefine( obj ) {
 
 // Export the helpers
 module.exports = {
-	NuxtConfigHelper: NuxtConfigHelper,
 	asDefine: asDefine,
+	create( rootDir, defaults, helperClass ) {
+		if ( !helperClass )
+			helperClass = NuxtConfigHelper;
+		return function ( dir, config ) {
+			const helper = new helperClass( dir, config );
+			helper.rootDir  = function() { return rootDir; };
+			helper.defaults = function() { return defaults; };
+			return helper.generate();
+		}
+	},
 };
