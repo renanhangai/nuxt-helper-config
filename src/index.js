@@ -37,6 +37,7 @@ class NuxtConfigHelper {
 		const ROOT_DIR = this._options.rootDir  || process.cwd();
 		const BUILD_DIR = this._options.buildDir || ( process.env.APP_BUILD_DIR ? path.resolve( process.env.APP_BUILD_DIR ) : path.resolve( ROOT_DIR, "dist" ) );
 		const FEATURES_DIR = this._options.featuresDir || path.resolve( ROOT_DIR, "www/common/nuxt/features" );
+		const CONFIG = this._options.config || {};
 
 		// Defaults
 		const defaults = Object.assign( {}, this._options.defaults );
@@ -46,10 +47,11 @@ class NuxtConfigHelper {
 			rootDir: ROOT_DIR,
 			buildDir: BUILD_DIR,
 			featuresDir: FEATURES_DIR,
+			config: CONFIG,
 		});
 		config.alias      = Object.assign( {}, defaults.alias, config.alias );
 		config.css        = [].concat( defaults.css ).concat( config.css );
-		config.define     = Object.assign( {}, defaults.define, config.define );
+		config.define     = Object.assign( { CONFIG }, defaults.define, config.define );
 		config.extend     = [].concat( defaults.extend ).concat( config.extend );
 		config.head       = Object.assign( {}, defaults.head, config.head );
 		config.plugins    = [].concat( defaults.plugins ).concat( config.plugins );
