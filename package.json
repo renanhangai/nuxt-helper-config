@@ -6,7 +6,9 @@
   "repository": "https://github.com/renanhangai/nuxt-helper-config.git",
   "author": "renanhangai <hangai.renan@gmail.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "tosource": "^1.0.0"
+  },
   "devDependencies": {
     "standard-version": "^4.4.0"
   },
