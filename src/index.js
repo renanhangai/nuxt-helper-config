@@ -58,21 +58,19 @@ class NuxtConfigHelper {
 		config.modules    = [].concat( defaults.modules ).concat( config.modules );
 		config.middleware = [].concat( defaults.middleware ).concat( config.middleware );
 		config.provide    = Object.assign( {}, defaults.provide, config.provide );
-		config.features   = Object.assign( {}, config.features, config.features );
+		config.features   = Object.assign( {}, defaults.features, config.features );
 
 		// Resolve features
-		const packageJson = require( path.resolve( ROOT_DIR, 'package.json' ) );
-		const helperFeatures = (packageJson["nuxt-helper-features"] || []).concat( Object.keys( config.features ) );
-		const enabledFeatures = {};
-		helperFeatures.forEach( ( f ) => {
-			if ( enabledFeatures[f] )
-				return;
-			enabledFeatures[f] = true;
-			const feature = require( path.resolve( FEATURES_DIR, f+".js" ) );
-			const featureOptions = config.features ? config.features[f] : void(0);
-			if ( featureOptions !== false )
-				feature.call( null, config, featureOptions );
-		});
+		for ( const featureKey in config.features ) {
+			const featureOptions = config.features[ featureKey ];
+			if ( featureOptions === false )
+				continue;
+			if (featureOptions === true) 
+				featureOptions = {};
+
+			const feature = require( path.resolve( FEATURES_DIR, featureKey+".js" ) );
+			feature.call( null, config, featureOptions || {} );
+		}
 		
 		// The nuxt configuration
 		const nuxtConfig = {
