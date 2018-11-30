@@ -17,10 +17,20 @@ function normalizeUse( useModules ) {
 	const useArray = [];
 	let moduleIndex = 1;
 	for ( const key in useModules ) {
-		const moduleOptions = useModules[ key ];
+		let moduleOptions = useModules[ key ];
 		if( moduleOptions === false )
 			continue;
-		useArray.push({ 
+
+		let priority = 0;
+		if ( moduleOptions && typeof(moduleOptions) === 'object' ) {
+			priority = moduleOptions.$priority | 0;
+			moduleOptions = Object.assign( {}, moduleOptions );
+			delete moduleOptions.$priority;
+		}
+
+		useArray.push({
+			index: moduleIndex,
+			priority: priority | 0,
 			variable: `VueModule${moduleIndex}`,
 			module:   key,
 			hasOptions: ( moduleOptions === true || moduleOptions == null ) ? false : true,
@@ -28,5 +38,8 @@ function normalizeUse( useModules ) {
 		});
 		++moduleIndex;
 	}
+	useArray.sort(function( a, b ) {
+		return b.priority - a.priority;
+	})
 	return useArray;
 }
