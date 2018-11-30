@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/renanhangai/nuxt-helper-config/compare/v0.4.0...v1.0.0) (2018-11-30)
+
+
+### Features
+
+* Added better support for features ([0ab119e](https://github.com/renanhangai/nuxt-helper-config/commit/0ab119e))
+* Added vueUse option to add Vue.use to nuxt plugins ([b69de4c](https://github.com/renanhangai/nuxt-helper-config/commit/b69de4c))
+
+
+### BREAKING CHANGES
+
+* no more features read from package.json
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/renanhangai/nuxt-helper-config/compare/v0.3.1...v0.4.0) (2018-10-08)
 
