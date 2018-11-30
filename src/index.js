@@ -62,6 +62,7 @@ class NuxtConfigHelper {
 		config.provide    = Object.assign( {}, defaults.provide, config.provide );
 		config.features   = Object.assign( {}, defaults.features, config.features );
 		config.vueUse     = Object.assign( {}, defaults.vueUse, config.vueUse );
+		config.nuxt       = Object.assign( {}, defaults.nuxt, config.nuxt );
 
 		// Resolve features
 		const features = utils.mapPriority( config.features, function( featureOptions, featureKey ) {
@@ -89,6 +90,7 @@ class NuxtConfigHelper {
 					{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
 					{ hid: 'description', name: 'description', content: 'Meta description' }
 				].concat( config.head.meta ).filter( Boolean ),
+				...config.nuxt.head,
 			},
 			build: {
 				extend: function( webpackConfig ) {
@@ -106,18 +108,25 @@ class NuxtConfigHelper {
 						fn && fn.call( this, webpackConfig ); 
 					} );
 				},
+				...config.nuxt.build,
 			},
 			buildDir: path.join( BUILD_DIR, "tmp/.nuxt", this._baseDir ),
 			generate: {
 				dir: path.join( BUILD_DIR, "www", this._baseDir ),
+				...config.nuxt.generate,
 			},
 			modules: [].concat( config.modules ).filter( Boolean ),
 			plugins: [].concat( config.plugins ).filter( Boolean ),
 			router: {
 				middleware: [].concat( config.middleware ).filter( Boolean ),
+				...config.nuxt.router,
 			},
 		};
-		return nuxtConfig;
+		delete config.nuxt.head;
+		delete config.nuxt.build;
+		delete config.nuxt.generate;
+		delete config.nuxt.router;
+		return { ...nuxtConfig, ...config.nuxt };
 	}
 };
 
