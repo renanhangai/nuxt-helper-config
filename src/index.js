@@ -1,6 +1,7 @@
 const path = require( "path" );
 const fs = require( "fs" );
 const webpack = require( "webpack" );
+const utils = require( "./utils" );
 
 /**
 
@@ -43,12 +44,13 @@ class NuxtConfigHelper {
 		const defaults = Object.assign( {}, this._options.defaults );
 
 		// Configuration
-		const config = this.getConfig({
+		const context = {
 			rootDir: ROOT_DIR,
 			buildDir: BUILD_DIR,
 			featuresDir: FEATURES_DIR,
 			config: CONFIG,
-		});
+		};
+		const config = this.getConfig( context );
 		config.alias      = Object.assign( {}, defaults.alias, config.alias );
 		config.css        = [].concat( defaults.css ).concat( config.css );
 		config.define     = Object.assign( { CONFIG }, defaults.define, config.define );
@@ -62,16 +64,13 @@ class NuxtConfigHelper {
 		config.vueUse     = Object.assign( {}, defaults.vueUse, config.vueUse );
 
 		// Resolve features
-		for ( const featureKey in config.features ) {
-			let featureOptions = config.features[ featureKey ];
-			if ( featureOptions === false )
-				continue;
-			if (featureOptions === true) 
-				featureOptions = {};
-
-			const feature = require( path.resolve( FEATURES_DIR, featureKey+".js" ) );
-			feature.call( null, config, featureOptions || {} );
-		}
+		const features = utils.mapPriority( config.features, function( featureOptions, featureKey ) {
+			return function() { 
+				const feature = require( path.resolve( FEATURES_DIR, featureKey+".js" ) );
+				feature.call( null, config, featureOptions || {}, context );
+			};
+		});
+		features.forEach( ( f ) => f.call() );
 
 		// Add module to vue-use
 		config.modules.push([ path.resolve( __dirname, './modules/vue-use.js' ), { use: config.vueUse }] );
