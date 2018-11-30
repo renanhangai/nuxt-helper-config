@@ -12,8 +12,12 @@ module.exports = {
 			let priority = 0;
 			if ( value && typeof(value) === 'object' ) {
 				priority = value.$priority | 0;
-				value = Object.assign( {}, value );
-				delete value.$priority;
+				if ( Array.isArray( value ) ) {
+					value = value.slice(0);
+				} else {
+					value = Object.assign( {}, value );
+					delete value.$priority;
+				}
 			}
 
 			const mappedValue = callback( value, key, index );

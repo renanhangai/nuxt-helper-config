@@ -4,9 +4,11 @@ import <%= use.variable %> from <%= JSON.stringify(use.module) %>;
 <% }) %>
 
 <% _.each( options.useArray, function( use ) { %>
-<% if ( use.hasOptions ) { %>
-	Vue.use( <%= use.variable %>, <%= use.optionsSource %> );
-<% } else { %> 
+<% if ( !use.hasOptions ) { %>
 	Vue.use( <%= use.variable %> );
+<% } else if ( use.hasOptionsFunction ) { %>
+	Vue.use( <%= use.variable %>, (<%= use.optionsSource %>()) );
+<% } else { %> 
+	Vue.use( <%= use.variable %>, <%= use.optionsSource %> );
 <% } %>
 <% }) %>

@@ -21,6 +21,7 @@ function normalizeUse( useModules ) {
 			variable: `VueModule${index}`,
 			module:   key,
 			hasOptions: ( moduleOptions === true || moduleOptions == null ) ? false : true,
+			hasOptionsFunction: ( typeof(moduleOptions) === 'function' ),
 			optionsSource: toSource( moduleOptions ),
 		};
 	});
