@@ -59,10 +59,11 @@ class NuxtConfigHelper {
 		config.middleware = [].concat( defaults.middleware ).concat( config.middleware );
 		config.provide    = Object.assign( {}, defaults.provide, config.provide );
 		config.features   = Object.assign( {}, defaults.features, config.features );
+		config.vueUse     = Object.assign( {}, defaults.vueUse, config.vueUse );
 
 		// Resolve features
 		for ( const featureKey in config.features ) {
-			const featureOptions = config.features[ featureKey ];
+			let featureOptions = config.features[ featureKey ];
 			if ( featureOptions === false )
 				continue;
 			if (featureOptions === true) 
@@ -71,6 +72,9 @@ class NuxtConfigHelper {
 			const feature = require( path.resolve( FEATURES_DIR, featureKey+".js" ) );
 			feature.call( null, config, featureOptions || {} );
 		}
+
+		// Add module to vue-use
+		config.modules.push([ path.resolve( __dirname, './modules/vue-use.js' ), { use: config.vueUse }] );
 		
 		// The nuxt configuration
 		const nuxtConfig = {

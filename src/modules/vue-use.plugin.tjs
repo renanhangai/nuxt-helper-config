@@ -1,0 +1,12 @@
+import Vue from 'vue';
+<% _.each( options.useArray, function( use ) { %>
+import <%= use.variable %> from <%= JSON.stringify(use.module) %>;
+<% }) %>
+
+<% _.each( options.useArray, function( use ) { %>
+<% if ( use.hasOptions ) { %>
+	Vue.use( <%= use.variable %>, <%= use.optionsSource %> );
+<% } else { %> 
+	Vue.use( <%= use.variable %> );
+<% } %>
+<% }) %>
