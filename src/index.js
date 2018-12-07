@@ -66,6 +66,8 @@ class NuxtConfigHelper {
 
 		// Resolve features
 		const features = utils.mapPriority( config.features, function( featureOptions, featureKey ) {
+			if ( featureOptions === false )
+				return false;
 			return function() { 
 				const feature = require( path.resolve( FEATURES_DIR, featureKey+".js" ) );
 				feature.call( null, config, featureOptions || {}, context );
