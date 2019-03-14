@@ -1,6 +1,6 @@
 {
   "name": "@renanhangai/nuxt-helper-config",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Generate helper configuration for nuxt",
   "main": "src/index.js",
   "repository": "https://github.com/renanhangai/nuxt-helper-config.git",
