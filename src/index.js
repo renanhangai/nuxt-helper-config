@@ -46,9 +46,9 @@ class NuxtConfigHelper {
 		// Configuration
 		const context = {
 			rootDir: ROOT_DIR,
-			buildDir: BUILD_DIR,
 			featuresDir: FEATURES_DIR,
-			outputDir: path.join(BUILD_DIR, "www", this._baseDir),
+			buildDir: path.join(BUILD_DIR, "tmp/.nuxt", this._baseDir),
+			generateDir: path.join(BUILD_DIR, "www", this._baseDir),
 			config: CONFIG,
 		};
 		const config = this.getConfig( context );
@@ -113,9 +113,9 @@ class NuxtConfigHelper {
 				},
 				...config.nuxt.build,
 			},
-			buildDir: path.join( BUILD_DIR, "tmp/.nuxt", this._baseDir ),
+			buildDir: context.buildDir,
 			generate: {
-				dir: context.outputDir,
+				dir: context.generateDir,
 				...config.nuxt.generate,
 			},
 			modules: [].concat( config.modules ).filter( Boolean ),
