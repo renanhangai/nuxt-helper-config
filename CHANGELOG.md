@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/renanhangai/nuxt-helper-config/compare/v1.1.3...v1.2.0) (2019-03-14)
+
+
+
 <a name="1.1.3"></a>
 ## [1.1.3](https://github.com/renanhangai/nuxt-helper-config/compare/v1.1.2...v1.1.3) (2019-03-14)
 
